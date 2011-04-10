@@ -1,0 +1,19 @@
+Examples
+
+WriteReadRandoms:
+
+This writes a bunch of random numbers to the ThreadGlobal in one set of
+threads while another thread sleeps with a BSF groovy sampler and then
+reads the threadglobal into an array and drops a debug sampler so you
+can see the results.
+
+ReadWriteRandomSynchronized:
+
+This uses my JmeterThreadSynch package to do the same as the above
+but without the groovy sleep. Instead, the thread that prints the results
+has a checkpoint sampler at the very start of the thread. This will cause
+it to sleep until all checkpoints are completed. The threads that write the
+random numbers have a checkpoint at the end, so they decrement the checkpoint
+each time one completes. The initial checkpoint value is 11 (Because
+there are 10 writer threads and 1 reader thread,) when it reaches 0 all the 
+writer threads are done and the reader thread wakes up and does its thing.

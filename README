@@ -1,0 +1,29 @@
+This project sets up a jmeter data config element which allows data
+to be shared across threads. There are three components to this:
+
+1) The config element will bind an object to a jmeter variable when the
+   test starts.
+
+2) A postprocessor that allows you to write the result of a sampler to
+   the variable.
+
+3) A sampler that takes the results of the aforementioned postprocessor
+   and writes them into an array.
+
+How this works is the object contains a HashMap which keys off the
+ID of the curent thread to store the value. This ID is unique, so we don't
+have to worry about clobbering data.
+
+So you'll just write something you're interested to into the variable
+while your test is running and then pull all the results out and examine
+them later in some validation thread, before declaring your results.
+
+----- Installation -----
+
+Drop the jar file in your jmeter lib/ext directory
+
+----- Building -----
+
+I use maven, so if you want to build it yourself you'll need to edit
+my pom.xml file and change the location of the jmeter install directory.
+Then go "mvn package". That oughta do it.
